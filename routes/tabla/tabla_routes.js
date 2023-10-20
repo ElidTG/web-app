@@ -1,0 +1,54 @@
+const express = require('express');
+const app = express();
+const registros = require('../../models/tabla');
+
+
+// Add this route to fetch data from the MongoDB database
+app.get('/gettabla', async(req, res) => {
+    const reg = await registros.find();
+    return res.status(200).json({
+        ok: true,
+        registros:reg
+    })
+});
+app.get('/gettabla/:rpu', async(req, res) => {
+    const rpu = req.params.rpu;
+    const reg = await registros.findOne({ Rpu: rpu });
+
+    if (reg) {
+        return res.status(200).json({
+            ok: true,
+            registro: reg
+        });
+    } else {
+        return res.status(404).json({
+            ok: false,
+            message: 'Registro no encontrado'
+        });
+    }
+});
+app.post('/patabla', (req, res) => {
+    let body = req.body;
+    let tabla = new registros({ 
+        NumeroM : body.NumeroM,
+        CodigoM : body.CodigoM,
+        CodigoLote : body.CodigoLote,
+        Tarifa: body.Tarifa,
+        Hilos: body.Hilos,
+        Rpu :     body.Rpu,
+        Folio :   body.Folio,
+        KhM: body.KhM,
+        RrM: body.RrM
+    })
+
+    tabla.save().then ((user)=>{
+        return res.status(200).json({
+            ok: true,
+            tabla:tabla
+        })
+    });
+    
+});
+
+module.exports = app;
+
