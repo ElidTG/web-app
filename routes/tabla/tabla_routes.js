@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const registros = require('../../models/tabla');
 
-
 // Add this route to fetch data from the MongoDB database
 app.get('/gettabla', async(req, res) => {
     const reg = await registros.find();
@@ -48,6 +47,34 @@ app.post('/patabla', (req, res) => {
         })
     });
     
+});
+
+app.post('/actualizartabla/:rpu', async (req, res) => {
+    try {
+        const rpuBuscar = req.params.rpu;
+        const body = req.body;
+        console.log(rpuBuscar);
+        console.log(body);
+        // Encuentra el registro por RPU y actualízalo con los datos del cuerpo (body).
+        const tablaModificar = await registros.findOneAndUpdate({ Rpu: rpuBuscar }, body, { new: true });
+        console.log(tablaModificar);
+        if (tablaModificar) {
+            return res.status(200).json({
+                ok: true,
+                tabla: tablaModificar
+            });
+        } else {
+            return res.status(404).json({
+                ok: false,
+                message: 'Registro no encontrado'
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            message: 'Error al modificar el registro'
+        });
+    }
 });
 
 module.exports = app;
