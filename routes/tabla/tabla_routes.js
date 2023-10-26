@@ -39,7 +39,6 @@ app.post('/patabla', (req, res) => {
         KhM: body.KhM,
         RrM: body.RrM
     })
-
     tabla.save().then ((user)=>{
         return res.status(200).json({
             ok: true,
@@ -59,6 +58,7 @@ app.post('/actualizartabla/:rpu', async (req, res) => {
         const tablaModificar = await registros.findOneAndUpdate({ Rpu: rpuBuscar }, body, { new: true });
         console.log(tablaModificar);
         if (tablaModificar) {
+            console.log('Modifica');
             return res.status(200).json({
                 ok: true,
                 tabla: tablaModificar
@@ -76,6 +76,5 @@ app.post('/actualizartabla/:rpu', async (req, res) => {
         });
     }
 });
-
 module.exports = app;
 
