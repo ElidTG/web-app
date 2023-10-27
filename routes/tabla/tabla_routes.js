@@ -58,7 +58,7 @@ app.post('/actualizartabla/:rpu', async (req, res) => {
         const tablaModificar = await registros.findOneAndUpdate({ Rpu: rpuBuscar }, body, { new: true });
         console.log(tablaModificar);
         if (tablaModificar) {
-            console.log('Modifica');
+            console.log('Modifica algo?');
             return res.status(200).json({
                 ok: true,
                 tabla: tablaModificar
