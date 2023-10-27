@@ -1,27 +1,39 @@
 const express = require('express');
-const bodyparser = require('body-parser');
-const {conexion} = require('./bd/config')
+const bodyParser = require('body-parser');
+const { conexion } = require('./bd/config');
 const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 
+// Set up CORS to allow multiple origins
+const allowedOrigins = [
+  'https://rutaiinteligente.vercel.app',
+  'http://localhost:4200',
+];
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://rutaiinteligente.vercel.app","*", "http://localhost:4200");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-    next();
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+  next();
 });
 
-app.use(bodyparser.json({limit : '50mb'}));
-app.use(bodyparser.urlencoded({ limit : '50mb', extended : true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json());
 
 conexion();
 
-app.use(require('./routes/index_routes'))
+app.use(require('./routes/index_routes'));
+
 app.listen(3000, () => {
-    console.log(`Server is running on port`);
+  console.log(`Server is running on port 3000`);
 });
