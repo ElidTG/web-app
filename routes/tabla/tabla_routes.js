@@ -3,7 +3,7 @@ const app = express();
 const registros = require('../../models/tabla');
 
 // Add this route to fetch data from the MongoDB database
-app.get('/gettabla', async(req, res) => {
+app.get('/buscartabla', async(req, res) => {
     const reg = await registros.find();
     return res.status(200).json({
         ok: true,
