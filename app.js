@@ -7,28 +7,22 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 
-// Set up CORS to allow multiple origins
-const allowedOrigins = [
-  'https://rutaiinteligente.vercel.app',
-  'http://localhost:4200',
-];
-
-app.use(function(req, res, next) {
-  const origin = req.headers.origin;
-
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-
   next();
 });
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json());
+
+// Set the CSP header with 'connect-src' to allow connections to your external service
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "connect-src 'self' https://ruta-inteligente-logica.onrender.com");
+  next();
+});
 
 conexion();
 
