@@ -11,7 +11,7 @@ const tablaSchema = new Schema ({
     Folio : {type : String},
     KhM: {type : String},
     RrM: {type : String},
-
+    Ruta: {type : String},
 })
 
 module.exports = mongoose.model('tabla', tablaSchema);

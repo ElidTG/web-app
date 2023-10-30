@@ -3,8 +3,9 @@ const app = express();
 const registros = require('../../models/tabla');
 
 // Add this route to fetch data from the MongoDB database
-app.get('/buscartabla', async(req, res) => {
-    const reg = await registros.find();
+app.get('/buscartabla/:ruta', async(req, res) => {
+    const ruta = req.params.ruta;
+    const reg = await registros.find({Ruta: ruta});
     return res.status(200).json({
         ok: true,
         registros:reg
@@ -37,7 +38,8 @@ app.post('/patabla', (req, res) => {
         Rpu :     body.Rpu,
         Folio :   body.Folio,
         KhM: body.KhM,
-        RrM: body.RrM
+        RrM: body.RrM,
+        Ruta: body.Ruta,
     })
     tabla.save().then ((user)=>{
         return res.status(200).json({
