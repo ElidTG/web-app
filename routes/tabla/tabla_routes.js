@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const registros = require('../../models/tabla');
 
-// Add this route to fetch data from the MongoDB database
 app.get('/buscartabla/:ruta', async(req, res) => {
     const ruta = req.params.ruta;
     const reg = await registros.find({Ruta: ruta});
@@ -11,6 +10,7 @@ app.get('/buscartabla/:ruta', async(req, res) => {
         registros:reg
     })
 });
+
 app.get('/gettabla/:rpu', async(req, res) => {
     const rpu = req.params.rpu;
     const reg = await registros.findOne({ Rpu: rpu });
@@ -40,6 +40,8 @@ app.post('/patabla', (req, res) => {
         KhM: body.KhM,
         RrM: body.RrM,
         Ruta: body.Ruta,
+        Latitud: body.Latitud,
+        Longitud: body.Longitud,
     })
     tabla.save().then ((user)=>{
         return res.status(200).json({
@@ -56,7 +58,7 @@ app.post('/actualizartabla/:rpu', async (req, res) => {
         const body = req.body;
         console.log(rpuBuscar);
         console.log(body);
-        // Encuentra el registro por RPU y actualízalo con los datos del cuerpo (body).
+        // Encuentra el registro por RPU y lo actualiza con los datos del cuerpo (body).
         const tablaModificar = await registros.findOneAndUpdate({ Rpu: rpuBuscar }, body, { new: true });
         console.log(tablaModificar);
         if (tablaModificar) {

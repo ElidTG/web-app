@@ -12,6 +12,8 @@ const tablaSchema = new Schema ({
     KhM: {type : String},
     RrM: {type : String},
     Ruta: {type : String},
+    Latitud: {type : String},
+    Longitud: {type : String},
 })
 
 module.exports = mongoose.model('tabla', tablaSchema);
