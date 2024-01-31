@@ -14,6 +14,7 @@ const tablaSchema = new Schema ({
     Ruta: {type : String},
     Latitud: {type : String},
     Longitud: {type : String},
+    Timestamp: {type : Date, default: Date.now}, // Establecer la fecha actual por defecto
 })
 
 module.exports = mongoose.model('tabla', tablaSchema);
